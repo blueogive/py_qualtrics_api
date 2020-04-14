@@ -10,12 +10,12 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='py_qualtrics_api',
-    version='0.3.0',
+    version='0.3.1',
     description='Library for facilitating survey administration with Qualtrics. Requires Qualtrics API.',
     long_description=long_description,
-    url='https://github.com/cwade/py_qualtrics_api',
-    author='cwade',
-    author_email='pysurveyhelper@gmail.com',
+    url='https://github.com/blueogive/py_qualtrics_api',
+    author='cwade, blueogive',
+    author_email='pysurveyhelper@gmail.com, mark.coggeshall@gmail.com',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
