@@ -842,3 +842,41 @@ class QualtricsAPI:
       if kwargs['verbose']:
         print(e)
       return()
+
+  def get_response_export_file_as_string(self, survey_id, file_id,
+                                            format='xml', verbose=False):
+    base_url = 'https://{}.qualtrics.com/API/v3/surveys/{}/export-responses/{}/file'.format(self.config.data_center,
+                                                                                       survey_id,
+                                                                                       file_id)
+    headers = {"x-api-token": self.config.api_token}
+    download = requests.request("GET", base_url, headers=headers, stream=True)
+    try:
+      zfobj = zipfile.ZipFile(io.BytesIO(download.content))
+      for name in zfobj.namelist():
+        uncompressed = zfobj.read(name)
+        if format=='xml':
+          df = uncompressed.decode('utf-8')
+        else:
+          raise Exception('The value of format is invalid.')
+      return(df)
+    except Exception as e:
+      if verbose:
+        print(e)
+      return()
+
+  def get_response_as_string(self, poll_interval, **kwargs):
+    xpt_id = self.create_response_export(file_format='xml',**kwargs)
+    status = 'incomplete'
+    while status != 'complete':
+        time.sleep(poll_interval)
+        status, file_id = self.get_response_export_progress(kwargs['survey_id'],
+                                                            xpt_id)
+    try:
+      xml = self.get_response_export_file_as_string(kwargs['survey_id'], file_id)
+      return(xml)
+    except Exception as e:
+      if kwargs['verbose']:
+        print(e)
+      return()
+
+
