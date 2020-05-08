@@ -880,3 +880,19 @@ class QualtricsAPI:
       return()
 
 
+  def list_questions(self, survey_id, verbose=False):
+    base_url = "https://{0}.qualtrics.com/API/v3/survey-definitions/{1}/questions".format(self.config.data_center,
+                                                                  survey_id)
+    headers = {"x-api-token": self.config.api_token}
+    (success, response) = self.make_get_request(base_url, headers, verbose)
+    if success == True:
+      questions = response.json()["result"]
+      if verbose:
+        print('\nRetrieved questions: {}'.format(questions))
+      return(questions)
+    else:
+      if verbose:
+        print(response.json())
+      return()
+
+
