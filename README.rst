@@ -28,7 +28,7 @@ Installation
 
 ::
 
-    pip install py_qualtrics_api
+    pip install git+https://github.com/blueogive/py_qualtrics_api.git
 
 
 ----
